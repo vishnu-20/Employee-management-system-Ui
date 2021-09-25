@@ -1,3 +1,17 @@
 .employee_home{
     margin-top: 10%;
 }
+.add_employee_home{
+ margin-top: 5%;
+
+}
+.add_class_buttons{
+text-align: center;
+
+}
+.container_add{
+    width: 40%;
+}
+.sucess_message{
+    margin-top: 10px;
+}
