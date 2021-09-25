@@ -3,14 +3,29 @@ import { useState, useEffect } from "react";
 import EmployeeService from "../Service/EmployeeService";
 import "../App.css";
 
-function EmployeeHome() {
-  const [employee, setEmployee] = useState([]);
 
-  useEffect(() => {
+function EmployeeHome(props) {
+  const [employee, setEmployee] = useState([]);
+  const [message, setMessage] = useState("");
+
+
+   const deleteEmployee=(empId)=>{
+       EmployeeService.deletEmployee(empId).then((response)=>{
+           setMessage(response.data);
+          setEmployee(employee.filter(emp=>emp.employeeId!==empId))
+       })
+   }
+   const updateEmployee=(empId)=>{
+   props.history.push(`/update/${empId}`)
+}
+
+   useEffect(() => {
     EmployeeService.getEmployeeDetails().then((response) => {
       setEmployee(response.data);
+
     });
   }, []);
+
   return (
     <div className="employee_home">
       <div className="container">
@@ -24,6 +39,7 @@ function EmployeeHome() {
               <th scope="col">Age</th>
               <th scope="col">Designation</th>
               <th scope="col">Phone</th>
+              <th scope="col">Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -36,13 +52,16 @@ function EmployeeHome() {
                         <td>{emp.age}</td>
                         <td>{emp.designation}</td>
                         <td>{emp.phone}</td>
-                        <td><button className="btn btn-danger">delete</button></td>
-                        <td><button className="btn btn-warning">Update</button></td>
+                        <td ><button className="btn btn-danger" onClick={()=>{deleteEmployee(emp.employeeId)}}>delete</button>
+                        <button className="btn btn-warning" style={{marginLeft:"5px"}} onClick={()=>{updateEmployee(emp.employeeId)}}>Update</button>
+                        </td>
                     </tr>)
                 }
             </tbody>
-        
         </table>
+        <div className="text-center text-success">
+        {message}
+        </div> 
       </div>
     </div>
   );
