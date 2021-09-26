@@ -8,7 +8,7 @@ function EmployeeHome(props) {
   const [employee, setEmployee] = useState([]);
   const [message, setMessage] = useState("");
 
-
+console.log(props);
    const deleteEmployee=(empId)=>{
        EmployeeService.deletEmployee(empId).then((response)=>{
            setMessage(response.data);
@@ -29,6 +29,9 @@ function EmployeeHome(props) {
   return (
     <div className="employee_home">
       <div className="container">
+         <div className="text-success text-center sucess_message">
+            {props.value}
+          </div>
         <table className="table table-striped">
           <thead>
             <tr>
